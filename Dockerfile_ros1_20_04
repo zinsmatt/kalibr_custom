@@ -31,6 +31,18 @@ ADD . $WORKSPACE/src/kalibr
 RUN	cd $WORKSPACE &&\
 	catkin build -j$(nproc)
 
+# build allan_ros_variance package
+RUN cd $WORKSPACE &&\
+	echo "losc" &&\
+	cd src &&\
+	ls &&\
+	git clone https://github.com/ori-drs/allan_variance_ros.git &&\
+	echo "losc" &&\
+	ls &&\
+	ls kalibr &&\
+	cd .. &&\
+	catkin build allan_variance_ros
+
 
 # When a user runs a command we will run this code before theirs
 # This will allow for using the manual focal length if it fails to init
