@@ -113,3 +113,62 @@ rosrun kalibr kalibr_calibrate_cameras \
  	--bag H2320007_apriltag.bag \
  	--bag-freq 10.0
 
+
+
+
+
+
+
+
+
+docker run -it -v "/home/mzins/Data/calibration_jonas/2023-11-03_01_calibration_2K:/data" kalibr
+
+source devel/setup.bash
+
+/catkin_ws/build/kalibr/atomic_configure/kalibr_bagcreater --folder /data/. --output-bag 2023-11-03_01_calibration_2K.bag
+
+rosrun kalibr kalibr_calibrate_cameras \
+ 	--target /data/checkerboard_4x6.yaml \
+ 	--models pinhole-equi pinhole-equi \
+ 	--topics /cam0/image_raw /cam1/image_raw \
+ 	--bag 2023-11-03_01_calibration_2K.bag \
+ 	--bag-freq 25.2
+
+cp 2023-11-03_01_calibration_2K* /data
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+docker run -it  -v "/home/mzins/Data/calibration_tof/2024-04-02_16-03/still/:/data" -v "/home/mzins/Data/calibration_tof/:/calib"  kalibr
+
+
+
+source devel/setup.bash
+
+/catkin_ws/build/kalibr/atomic_configure/kalibr_bagcreater --folder /data/. --output-bag tof.bag
+
+
+rosrun kalibr kalibr_calibrate_cameras \
+	--target /calib/april_6x6.yaml \
+ 	--models pinhole-equi \
+ 	--topics /cam0/image_raw \
+ 	--bag tof.bag
+
+
+rosrun kalibr kalibr_calibrate_cameras \
+	--target /calib/april_6x6.yaml \
+	--models pinhole-radtan \
+	--topics /cam0/image_raw \
+	--bag tof.bag
+
+cp tof-* /calib/

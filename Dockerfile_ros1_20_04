@@ -24,9 +24,12 @@ RUN mkdir -p $WORKSPACE/src && \
 	catkin config --extend /opt/ros/noetic && \
 	catkin config --cmake-args -DCMAKE_BUILD_TYPE=Release
 
-ADD . $WORKSPACE/src/kalibr
-# RUN cd $WORKSPACE/src &&\
-# 	git clone https://github.com/ori-drs/kalibr.git
+# ADD . $WORKSPACE/src/kalibr
+RUN cd $WORKSPACE/src &&\
+	git clone https://github.com/zinsmatt/kalibr_custom.git kalibr &&\
+	cd kalibr &&\
+	git checkout dev
+
 
 RUN	cd $WORKSPACE &&\
 	catkin build -j$(nproc)
